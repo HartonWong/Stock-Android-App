@@ -19,9 +19,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position==0)
-            return new TabFragment1();
+            return new StockDetailsFragment();
         else if(position==1)
-            return new TabFragment2();
+            return new HistoryChartFragment();
         else
             return new TabFragment3();
         // Which Fragment should be dislpayed by the viewpager for the given position

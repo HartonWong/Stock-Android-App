@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Nishant on 4/17/2016.
- */
 public class MySimpleAdapter extends SimpleAdapter {
 
     private List<HashMap<String, String>> results;

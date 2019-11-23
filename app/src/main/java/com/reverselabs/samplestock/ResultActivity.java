@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -22,20 +21,13 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-
-
 import org.json.JSONException;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class ResultActivity extends AppCompatActivity {
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private CustomViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter;
     private Menu menu;
     ShareDialog shareDialog;
     private CallbackManager callbackManager;
@@ -44,7 +36,45 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_info);
 
+        setShareDialog();
+        updateFavouriteList();
+        setTabsBehaviour();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void makeToast(String msg)
+    {
+        Toast.makeText(ResultActivity.this,msg , Toast.LENGTH_SHORT).show();
+    }
+
+    private void setTabsBehaviour() {
+        TabsPagerAdapter tabsPagerAdapter = new TabsPagerAdapter(this, getSupportFragmentManager());
+
+        ViewPager viewPager = (ViewPager)findViewById(R.id.view_pager);
+        viewPager.setAdapter(tabsPagerAdapter);
+
+        TabLayout tabs = (TabLayout)findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+    }
+
+    private void updateFavouriteList() {
         String allSymbols =getSymbols();
+        MainActivity.symbolsList =new LinkedList<String>();
+        if(allSymbols !=null && !allSymbols.isEmpty())
+        {
+            MainActivity.multistring= allSymbols.split(",");
+            MainActivity.symbolsList = new LinkedList<String>(Arrays.asList(MainActivity.multistring));
+        }
+        try {
+            setTitle(MainActivity.json.getString("Name"));
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setShareDialog() {
         callbackManager = CallbackManager.Factory.create();
         AppEventsLogger.activateApp(this);
         shareDialog = new ShareDialog(this);
@@ -73,67 +103,8 @@ public class ResultActivity extends AppCompatActivity {
                 }
             });
         }
-        MainActivity.symbolsList =new LinkedList<String>();
-        if(allSymbols !=null && !allSymbols.isEmpty())
-        {
-            MainActivity.multistring= allSymbols.split(",");
-            MainActivity.symbolsList = new LinkedList<String>(Arrays.asList(MainActivity.multistring));
-        }
-        try {
-            setTitle(MainActivity.json.getString("Name"));
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager = (CustomViewPager) findViewById(R.id.viewpager);
-
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setPagingEnabled(false);
-
-        final TabLayout.Tab home = tabLayout.newTab();
-        final TabLayout.Tab inbox = tabLayout.newTab();
-        final TabLayout.Tab star = tabLayout.newTab();
-
-
-        home.setText("CURRENT");
-        inbox.setText("HISTORICAL");
-        star.setText("NEWS");
-        tabLayout.addTab(home, 0);
-        tabLayout.addTab(inbox, 1);
-        tabLayout.addTab(star, 2);
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(onTabSelectedListener(viewPager));
-
-
     }
 
-    public void makeToast(String msg)
-    {
-        Toast.makeText(ResultActivity.this,msg , Toast.LENGTH_SHORT).show();
-    }
-    private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager pager) {
-        return new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        };
-    }
 
     public boolean checkSymbol(String str)
     {

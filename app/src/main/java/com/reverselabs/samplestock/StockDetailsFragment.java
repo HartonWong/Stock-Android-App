@@ -15,13 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.reverselabs.samplestock.photoview.PhotoViewAttacher;
-
 import org.json.JSONException;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -31,7 +27,12 @@ import java.util.Date;
 /**
  * Created by Admin on 11-12-2015.
  */
-public class TabFragment1 extends Fragment {
+public class StockDetailsFragment extends Fragment {
+
+    public StockDetailsFragment() {}
+    public static StockDetailsFragment newInstance() {
+        return new StockDetailsFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

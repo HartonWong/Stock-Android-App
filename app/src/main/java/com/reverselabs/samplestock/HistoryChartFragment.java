@@ -9,13 +9,19 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
 import org.json.JSONException;
 
 /**
  * Created by Nishant on 4/21/2016.
  */
-public class TabFragment2 extends Fragment {
+public class HistoryChartFragment extends Fragment {
+    public HistoryChartFragment() {}
+
+    public static HistoryChartFragment newInstance() {
+        return new HistoryChartFragment();
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.historical, container, false);
@@ -28,7 +34,7 @@ public class TabFragment2 extends Fragment {
                     Toast.makeText(getContext(), "Oh no! " + description, Toast.LENGTH_SHORT).show();
                 }
             });
-            webview.loadUrl("http://www.kakarnishant.com/HW8/histchart.php?symbol="+MainActivity.json.getString("Symbol"));
+            webview.loadUrl("http://doctorcarryleng.com/trial/histchart.php?symbol="+MainActivity.json.getString("Symbol"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
