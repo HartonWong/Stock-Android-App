@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,26 +28,22 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import static com.reverselabs.samplestock.Constants.STOCK_INFO_API_URL;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String[] names = new String[] { };
-    public static String apiurl;
-
     // Array of integers points to images stored in /res/drawable-ldpi/
     public static String[] symbol = new String[]{};
     public static String a;
     public static JSONObject json;
     // Array of strings to store currencies
     public static List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
-
     public static final String PREFS_NAME = "Symbols";
     public static String[] multistring;
     public static LinkedList<String> symbolsList;
@@ -57,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     public static String prevSymbol;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        apiurl="http://doctorcarryleng.com/trial/nkapi.php?";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -160,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (final int position1 : reverseSortedPositions) {
                                     try {
-                                        JSONObject symbolData=getJSONData(apiurl+"type=stock&symbol="+myAdapter.getItem(position1));
+                                        JSONObject symbolData=getJSONData(STOCK_INFO_API_URL+"type=stock&symbol="+myAdapter.getItem(position1));
                                         final String StockName=symbolData.getString("Name");
                                         new AlertDialog.Builder(MainActivity.this)
                                                 .setMessage("Want to delete "+StockName+" from favorites?")
@@ -190,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                json=getJSONData(apiurl+"type=stock&symbol="+myAdapter.getItem(position));
+                json=getJSONData(STOCK_INFO_API_URL+"type=stock&symbol="+myAdapter.getItem(position));
                 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
                 startActivity(intent);
             }
@@ -259,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
             }
             mainViewholder = (ViewHolder) convertView.getTag();
             try {
-                JSONObject symbolData=getJSONData(apiurl+"type=stock&symbol="+getItem(position));
+                JSONObject symbolData=getJSONData(STOCK_INFO_API_URL+"type=stock&symbol="+getItem(position));
                 String StockName=symbolData.getString("Name");
                 DecimalFormat df = new DecimalFormat("###.##");
                 mainViewholder.name.setText(StockName);
@@ -323,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... arg0) {
-            json=getJSONData(apiurl+"type=stock&symbol="+a);
+            json=getJSONData(STOCK_INFO_API_URL+"type=stock&symbol="+a);
             return null;
         }
 

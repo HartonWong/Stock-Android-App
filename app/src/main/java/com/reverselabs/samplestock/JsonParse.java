@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import static com.reverselabs.samplestock.Constants.STOCK_INFO_API_URL;
 
 public class JsonParse {
     double current_latitude,current_longitude;
@@ -25,7 +26,7 @@ public class JsonParse {
         List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
         try {
             String temp=sName.replace(" ", "%20");
-            URL js = new URL(MainActivity.apiurl+"type=search&symbol="+temp);
+            URL js = new URL(STOCK_INFO_API_URL+"type=search&symbol="+temp);
             URLConnection jc = js.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(jc.getInputStream()));
             String line = reader.readLine();

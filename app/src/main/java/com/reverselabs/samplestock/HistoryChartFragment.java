@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import org.json.JSONException;
+import static com.reverselabs.samplestock.Constants.HISTORY_CHART_URL;
 
 /**
  * Created by Nishant on 4/21/2016.
@@ -34,7 +35,7 @@ public class HistoryChartFragment extends Fragment {
                     Toast.makeText(getContext(), "Oh no! " + description, Toast.LENGTH_SHORT).show();
                 }
             });
-            webview.loadUrl("http://doctorcarryleng.com/trial/histchart.php?symbol="+MainActivity.json.getString("Symbol"));
+            webview.loadUrl(HISTORY_CHART_URL + "symbol="+MainActivity.json.getString("Symbol"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
