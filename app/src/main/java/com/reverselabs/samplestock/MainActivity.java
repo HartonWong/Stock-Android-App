@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public static String prevSymbol;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        apiurl="http://stockapp-1273.appspot.com/nkapi.php?";
+        apiurl="http://doctorcarryleng.com/trial/nkapi.php?";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
